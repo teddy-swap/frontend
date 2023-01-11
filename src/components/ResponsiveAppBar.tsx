@@ -33,7 +33,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { Alert, AlertTitle, Link, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal, { useModal } from "./Modal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const pages = ["swap", "liquidity", "farm", "orders"];
 
@@ -142,6 +142,8 @@ function ResponsiveAppBar() {
       },
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <AppBar className="fixed px-10 py-0 text-black bg-white shadow-sm dark:bg-slate-900/70 dark:text-white">
@@ -267,8 +269,9 @@ function ResponsiveAppBar() {
               </Box>
             </Box>
           )}
-          <Tooltip title="Update">
+          <Tooltip title="Transaction History">
             <Button
+              onClick={() => navigate("/history")}
               variant="outlined"
               className="text-black dark:text-white px-0 border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-white/10 rounded-md min-w-[2.5rem] min-h-[2.5rem]"
               classes={{ startIcon: "m-0" }}

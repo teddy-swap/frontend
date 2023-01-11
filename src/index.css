@@ -22,3 +22,7 @@ body {
 .tokenAvatar {
   @apply dark:bg-zinc-900 h-7 w-7 border-none;
 }
+
+.tableCell {
+  @apply dark:text-white dark:border-zinc-800 text-base px-6 capitalize;
+}

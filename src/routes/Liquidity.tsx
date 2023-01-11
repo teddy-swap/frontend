@@ -44,7 +44,7 @@ export default function Liquidity() {
   const navigate = useNavigate();
 
   return (
-    <Box className="dark:text-white w-[1100px] px-8 z-0 space-y-8">
+    <Box className="dark:text-white w-[1200px] px-8 z-0 space-y-8">
       <Typography className="font-semibold text-xl">Liquidity</Typography>
       <Stack className="gap-6">
         <Box className="flex justify-between">
