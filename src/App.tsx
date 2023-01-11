@@ -4,9 +4,19 @@ import "./index.css";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import SwapCard from "./components/SwapCard";
 import { useDarkMode } from "./contexts/index";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+  Routes,
+} from "react-router-dom";
+import Liquidity from "./routes/Liquidity";
 
 function App() {
   const { darkMode } = useDarkMode();
+
   return (
     <div className={`${darkMode ? "dark bg-black" : ""} dark:bg-black`}>
       <div
@@ -20,7 +30,7 @@ function App() {
           <img
             src={"images/bear-with-balloons.png"}
             alt="plane with bear"
-            className="absolute bottom-0 right-20 w-96"
+            className="fixed bottom-0 right-20 w-96"
           />
         ) : (
           <img
@@ -29,10 +39,16 @@ function App() {
             className="absolute left-10 top-40 w-96"
           />
         )}
-        <ResponsiveAppBar />
-        <main className="z-10 flex justify-center w-full pt-40">
-          <SwapCard />
-        </main>
+        <BrowserRouter>
+          <ResponsiveAppBar />
+          <main className="z-10 flex justify-center w-full pt-40">
+            <Routes>
+              <Route path="/" element={<SwapCard />} />
+              <Route path="/swap" element={<SwapCard />} />
+              <Route path="/liquidity" element={<Liquidity />} />
+            </Routes>
+          </main>
+        </BrowserRouter>
       </div>
     </div>
   );

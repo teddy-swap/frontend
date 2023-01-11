@@ -33,8 +33,9 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { Alert, AlertTitle, Link, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal, { useModal } from "./Modal";
+import { NavLink } from "react-router-dom";
 
-const pages = ["Swap", "Liquidity", "Farm", "Orders"];
+const pages = ["swap", "liquidity", "farm", "orders"];
 
 function ResponsiveAppBar() {
   const { darkMode } = useDarkMode();
@@ -192,19 +193,21 @@ function ResponsiveAppBar() {
             ))}
           </Menu>
         </Box>
-        <Box className="flex-grow hidden gap-4 md:flex">
+        <Box className="flex-grow hidden gap-6 md:flex">
           {pages.map((page, i) => (
-            <Button
+            <NavLink
+              to={page}
               key={page}
-              onClick={handleCloseNavMenu}
-              className={`my-2 text-black block text-base font-bold capitalize ${
-                i === 0
-                  ? "text-sky-500 dark:text-white"
-                  : "text-gray-500 dark:text-zinc-400"
-              }`}
+              className={({ isActive }) =>
+                `my-2 text-black block text-base font-bold capitalize hover:dark:text-white transition ${
+                  isActive
+                    ? "text-sky-500 dark:text-white"
+                    : "text-gray-500 dark:text-zinc-400"
+                }`
+              }
             >
               {page}
-            </Button>
+            </NavLink>
           ))}
         </Box>
 
