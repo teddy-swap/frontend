@@ -28,6 +28,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LiquidityTable from "../components/LiquidityTable";
 import TabPanel from "../components/Tabs";
 import { useNavigate } from "react-router-dom";
+import PoolsOverviewTable from "../components/PoolsOverviewTable";
 
 export default function Liquidity() {
   const { darkMode } = useDarkMode();
@@ -86,12 +87,11 @@ export default function Liquidity() {
           />
         </Box>
         <TabPanel value={value} index={0}>
-          <LiquidityTable />
+          <PoolsOverviewTable />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <LiquidityTable />
         </TabPanel>
-        {/* <BasicTabs /> */}
       </Stack>
     </Box>
   );

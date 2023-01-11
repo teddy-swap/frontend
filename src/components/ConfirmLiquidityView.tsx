@@ -6,13 +6,13 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InfoRow from "./InfoRow";
 import SwapHorizOutlinedIcon from "@mui/icons-material/SwapHorizOutlined";
 
-const ConfirmAddLiquidityView = (props: IConfirmAddLiquidityView) => {
+const ConfirmLiquidityView = (props: IConfirmLiquidityView) => {
   const { darkMode } = useDarkMode();
   return (
     <Stack className="gap-4">
       <Box className="flex justify-evenly items-start">
         <Box className="flex flex-col items-center">
-          <TokenLabel token={"WMTt"} />
+          <TokenLabel token={props.token1} />
           <Typography
             className={`text-2xl font-medium py-2 px-1 ${
               darkMode ? "text-white placeholder:text-zinc-600" : ""
@@ -23,7 +23,7 @@ const ConfirmAddLiquidityView = (props: IConfirmAddLiquidityView) => {
         </Box>
         <AddOutlinedIcon className="w-6 h-6 m-3.5 text-white" />
         <Box className="flex flex-col items-center">
-          <TokenLabel token={"MELDt"} />
+          <TokenLabel token={props.token2} />
           <Typography
             className={`text-2xl font-medium py-2 px-1 ${
               darkMode ? "text-white placeholder:text-zinc-600" : ""
@@ -49,14 +49,17 @@ const ConfirmAddLiquidityView = (props: IConfirmAddLiquidityView) => {
           darkMode ? "bg-sky-700 text-white" : ""
         }`}
       >
-        Confirm Add Liquidity
+        Confirm {props.type} Liquidity
       </Button>
     </Stack>
   );
 };
 
-interface IConfirmAddLiquidityView {
+interface IConfirmLiquidityView {
   onOpen: () => void;
+  token1: string;
+  token2: string;
+  type: "add" | "remove";
 }
 
-export default ConfirmAddLiquidityView;
+export default ConfirmLiquidityView;

@@ -18,7 +18,7 @@ import TickCircleIcon from "../assets/TickCircleIcon";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InfoRow from "../components/InfoRow";
 import SwapHorizOutlinedIcon from "@mui/icons-material/SwapHorizOutlined";
-import ConfirmAddLiquidityView from "../components/ConfirmAddLiquidityView";
+import ConfirmAddLiquidityView from "../components/ConfirmLiquidityView";
 
 export default function AddLiquidity() {
   const { darkMode } = useDarkMode();

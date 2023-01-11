@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import Liquidity from "./routes/Liquidity";
 import AddLiquidity from "./routes/AddLiquidity";
+import RemoveLiquidity from "./routes/RemoveLiquidity";
 
 function App() {
   const { darkMode } = useDarkMode();
@@ -48,6 +49,7 @@ function App() {
               <Route path="/swap" element={<SwapCard />} />
               <Route path="/liquidity" element={<Liquidity />} />
               <Route path="/liquidity/add" element={<AddLiquidity />} />
+              <Route path="/liquidity/remove" element={<RemoveLiquidity />} />
             </Routes>
           </main>
         </BrowserRouter>

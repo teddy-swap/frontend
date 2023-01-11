@@ -72,7 +72,7 @@ const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
 const tableCell = `dark:text-white border-zinc-800 text-base px-6`;
 const tokenAvatar = `dark:bg-zinc-900 h-7 w-7 border-none`;
 
-export default function LiquidityTable() {
+export default function PoolsOverviewTable() {
   return (
     <TableContainer component={Paper} className="bg-transparent rounded-lg">
       <Table className="dark:bg-zinc-900 dark:text-white border-separate border-spacing-y-1">
@@ -90,7 +90,7 @@ export default function LiquidityTable() {
             <LiquidityTableRow
               key={`${row.token1}/${row.token2}`}
               row={row}
-              action="remove"
+              action="swap"
             />
           ))}
         </TableBody>

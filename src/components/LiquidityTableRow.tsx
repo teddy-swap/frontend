@@ -22,9 +22,10 @@ import { useNavigate } from "react-router-dom";
 
 interface ILiquidityTableRow {
   row: any;
+  action: "swap" | "remove";
 }
 
-export default function LiquidityTableRow({ row }: ILiquidityTableRow) {
+export default function LiquidityTableRow({ row, action }: ILiquidityTableRow) {
   const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
   const tableCell = `dark:text-white border-zinc-800 text-base px-6`;
   const tokenAvatar = `dark:bg-zinc-900 h-7 w-7 border-none`;
@@ -140,11 +141,13 @@ export default function LiquidityTableRow({ row }: ILiquidityTableRow) {
               <Grid xs={5}>
                 <Stack gap={2} className="lg:flex-row items-center h-full">
                   <Button
-                    onClick={() => navigate("/swap")}
+                    onClick={() =>
+                      navigate(action === "remove" ? "remove" : "/swap")
+                    }
                     variant="contained"
                     className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-900 dark:text-white text-zinc-900 rounded-lg w-full lg:w-40"
                   >
-                    Swap
+                    {action === "remove" ? "Remove Liquidity" : "Swap"}
                   </Button>
                   <Button
                     onClick={() => navigate("add")}
