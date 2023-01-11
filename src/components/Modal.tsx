@@ -51,7 +51,7 @@ const Modal = ({ open, onClose, children, headerTitle }: IModal) => {
   return (
     <MuiModal open={open} onClose={onClose}>
       <Box
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] border p-5 rounded-xl ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] border p-5 rounded-xl ${
           darkMode ? "bg-zinc-900 border-zinc-800" : ""
         }`}
       >
@@ -61,7 +61,7 @@ const Modal = ({ open, onClose, children, headerTitle }: IModal) => {
           } flex items-center justify-between mb-10`}
         >
           <Typography
-            className="dark:text-black font-bold text-xl"
+            className="dark:text-black font-semibold text-xl"
             variant="h6"
             component="h2"
           >

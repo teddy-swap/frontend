@@ -18,6 +18,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useNavigate } from "react-router-dom";
 
 interface ILiquidityTableRow {
   row: any;
@@ -29,6 +30,7 @@ export default function LiquidityTableRow({ row }: ILiquidityTableRow) {
   const tokenAvatar = `dark:bg-zinc-900 h-7 w-7 border-none`;
 
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <TableRow
@@ -138,12 +140,14 @@ export default function LiquidityTableRow({ row }: ILiquidityTableRow) {
               <Grid xs={5}>
                 <Stack gap={2} className="lg:flex-row items-center h-full">
                   <Button
+                    onClick={() => navigate("/swap")}
                     variant="contained"
                     className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-900 dark:text-white text-zinc-900 rounded-lg w-full lg:w-40"
                   >
                     Swap
                   </Button>
                   <Button
+                    onClick={() => navigate("add")}
                     variant="contained"
                     className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white text-zinc-900 rounded-lg w-full lg:w-40"
                   >

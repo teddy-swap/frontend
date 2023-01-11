@@ -27,6 +27,7 @@ import BasicTabs from "../components/Tabs";
 import SearchIcon from "@mui/icons-material/Search";
 import LiquidityTable from "../components/LiquidityTable";
 import TabPanel from "../components/Tabs";
+import { useNavigate } from "react-router-dom";
 
 export default function Liquidity() {
   const { darkMode } = useDarkMode();
@@ -38,6 +39,8 @@ export default function Liquidity() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const navigate = useNavigate();
 
   return (
     <Box className="dark:text-white w-[1100px] px-8 z-0 space-y-8">
@@ -55,6 +58,7 @@ export default function Liquidity() {
             <Tab label="Your Liquidity" className={`${tabStyle}`} />
           </Tabs>
           <Button
+            onClick={() => navigate("add")}
             variant="contained"
             className="text-base px-6 font-semibold capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white text-zinc-900 rounded-lg"
           >

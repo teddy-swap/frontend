@@ -65,7 +65,7 @@ export default function SwapListModal(props: ListModalProps) {
       >
         {selectedToken >= 0 && (
           <img
-            src={`images/${tokens[selectedToken].key}.png`}
+            src={`/images/${tokens[selectedToken].key}.png`}
             alt={tokens[selectedToken].name}
             className="h-6"
           />
@@ -114,7 +114,7 @@ export default function SwapListModal(props: ListModalProps) {
                 className="capitalize text-white bg-transparent border-none flex w-full rounded-xl px-4 py-2 justify-start gap-2"
               >
                 <img
-                  src={`images/${token.key}.png`}
+                  src={`/images/${token.key}.png`}
                   alt={token.name}
                   className="h-8"
                 />

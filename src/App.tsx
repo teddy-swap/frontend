@@ -13,6 +13,7 @@ import {
   Routes,
 } from "react-router-dom";
 import Liquidity from "./routes/Liquidity";
+import AddLiquidity from "./routes/AddLiquidity";
 
 function App() {
   const { darkMode } = useDarkMode();
@@ -28,13 +29,13 @@ function App() {
       >
         {darkMode ? (
           <img
-            src={"images/bear-with-balloons.png"}
+            src={"/images/bear-with-balloons.png"}
             alt="plane with bear"
             className="fixed bottom-0 right-20 w-96"
           />
         ) : (
           <img
-            src={"images/plane-with-bear.png"}
+            src={"/images/plane-with-bear.png"}
             alt="plane with bear"
             className="absolute left-10 top-40 w-96"
           />
@@ -46,6 +47,7 @@ function App() {
               <Route path="/" element={<SwapCard />} />
               <Route path="/swap" element={<SwapCard />} />
               <Route path="/liquidity" element={<Liquidity />} />
+              <Route path="/liquidity/add" element={<AddLiquidity />} />
             </Routes>
           </main>
         </BrowserRouter>
