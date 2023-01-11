@@ -36,11 +36,41 @@ function createData(
   };
 }
 
-const rows = Array(10)
-  .fill(0)
-  .map((item) =>
-    createData("WMTT", "MELDt", "swap", "complete", "January 3, 2023 11:00 AM")
-  );
+const rows = [
+  ...Array(3)
+    .fill(0)
+    .map((item) =>
+      createData(
+        "WMTT",
+        "MELDt",
+        "swap",
+        "complete",
+        "January 3, 2023 11:00 AM"
+      )
+    ),
+  ...Array(3)
+    .fill(0)
+    .map((item) =>
+      createData(
+        "WMTT",
+        "MELDt",
+        "deposit",
+        "pending",
+        "January 3, 2023 11:00 AM"
+      )
+    ),
+  ...Array(3)
+    .fill(0)
+    .map((item) =>
+      createData(
+        "WMTT",
+        "MELDt",
+        "swap",
+        "cancelled",
+        "January 3, 2023 11:00 AM"
+      )
+    ),
+];
 
 const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
 const tableCell = `dark:text-white border-zinc-800 text-base px-6`;
