@@ -245,7 +245,7 @@ function ResponsiveAppBar() {
                     >
                       <Typography>{wallet.name}</Typography>
                       <img
-                        src={`images/${wallet.key}.png`}
+                        src={`/images/${wallet.key}.png`}
                         alt={wallet.name}
                         className="h-8"
                       />
@@ -259,7 +259,7 @@ function ResponsiveAppBar() {
               <Typography>3,400.6254 ₳</Typography>
               <Box className="flex items-center gap-1 p-1 rounded shadow-md dark:bg-black">
                 <img
-                  src={`images/${connectedWallet}.png`}
+                  src={`/images/${connectedWallet}.png`}
                   alt={connectedWallet}
                   className="h-5"
                 />

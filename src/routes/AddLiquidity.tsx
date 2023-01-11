@@ -57,6 +57,51 @@ export default function AddLiquidity() {
     };
   }, [snackbarOpen, snackbarHover]);
 
+  function createData(
+    token1: string,
+    token2: string,
+    percentage: number,
+    tvl: number,
+    volume: number,
+    apr: number,
+    totalLiquidityT1: number,
+    totalLiquidityT2: number,
+    liquidityT1: number,
+    liquidityT2: number,
+    priceT1: number,
+    priceT2: number
+  ) {
+    return {
+      token1,
+      token2,
+      percentage,
+      tvl,
+      volume,
+      apr,
+      totalLiquidityT1,
+      totalLiquidityT2,
+      liquidityT1,
+      liquidityT2,
+      priceT1,
+      priceT2,
+    };
+  }
+
+  const row = createData(
+    "WMTT",
+    "MELDt",
+    0.3,
+    52.2,
+    4.2,
+    3.6,
+    26747918,
+    134384920,
+    16326,
+    82021,
+    5.024,
+    0.19903
+  );
+
   return (
     <Card className="z-10 max-w-md p-6 space-y-4 border border-gray-200 shadow-lg dark:border-zinc-900 rounded-xl dark:bg-zinc-900">
       <CardHeader
@@ -117,7 +162,12 @@ export default function AddLiquidity() {
         onClose={handleConfirmAddLiquidityClose}
         open={confirmAddLiquidityOpen}
       >
-        <ConfirmAddLiquidityView onOpen={handleWaitingOpen} />
+        <ConfirmAddLiquidityView
+          onOpen={handleWaitingOpen}
+          token1={row.token1}
+          token2={row.token2}
+          type="add"
+        />
       </Modal>
       <Modal
         headerTitle="Waiting for confirmation"
