@@ -38,18 +38,45 @@ function createData() {
     pendingT2: 8.36,
     harvestedT1: 12456,
     harvestedT2: 28.63,
-    totalLiquidityT1: 26747918,
-    totalLiquidityT2: 134384920,
-    liquidityT1: 16326,
-    liquidityT2: 82021,
-    priceT1: 5.024,
-    priceT2: 0.199,
   };
 }
 
+const data = [
+  {
+    token1: "WMTT",
+    token2: "MELDt",
+    totalStaked: 3873800430,
+    emissionsPercentage: 68.2,
+    dailyEmission: 8230456,
+    yourStake: 12367,
+    apr: 122.63,
+    farm: "Teddy Farm",
+    farmIcon: "🧸",
+    pendingT1: 1356,
+    pendingT2: 8.36,
+    harvestedT1: 12456,
+    harvestedT2: 28.63,
+  },
+  {
+    token1: "ADA",
+    token2: "TEDY",
+    totalStaked: 0,
+    emissionsPercentage: 68.2,
+    dailyEmission: 8230456,
+    yourStake: 12367,
+    apr: 122.63,
+    farm: "Grizzly Farm",
+    farmIcon: "🐻",
+    pendingT1: 0,
+    pendingT2: 0,
+    harvestedT1: 12456,
+    harvestedT2: 28.63,
+  },
+];
+
 const rows = Array(10)
   .fill(0)
-  .map((item) => createData());
+  .map((item, i) => (i % 2 == 0 ? data[0] : data[1]));
 
 const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
 const tableCell = `dark:text-white border-zinc-800 text-base px-6`;

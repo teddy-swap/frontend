@@ -20,13 +20,18 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
 import { HiBadgeCheck } from "react-icons/hi";
+import Modal, { useModal } from "./Modal";
+import RemoveLiquidity from "../routes/RemoveLiquidity";
+import StakeView from "./StakeView";
+import ConfirmLiquidityView from "./ConfirmLiquidityView";
+import TransactionSnackbar from "./TransactionSnackbar";
+import WaitingModal from "./WaitingModal";
 
-interface ILiquidityTableRow {
+interface Props {
   row: any;
-  action: "swap" | "remove";
 }
 
-export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
+export default function FarmTableRow({ row }: Props) {
   const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
   const tableCell = `dark:text-white border-zinc-800 text-sm px-6 font-medium`;
   const tokenAvatar = `dark:bg-zinc-900 h-7 w-7 border-none`;
@@ -34,7 +39,28 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
   const aprTokenAvatar = `dark:bg-zinc-900 h-5 w-5 border-none`;
 
   const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [rowData, setRowData] = useState(row);
+  // const [pendingT1, setPendingT1] = useState(row.pendingT1);
+  // const [harvestedT1, setHarvestedT1] = useState(rowData.harvestedT1);
+  // const [pendingT2, setPendingT2] = useState(row.pendingT2);
+  // const [harvestedT2, setHarvestedT2] = useState(rowData.harvestedT2);
   const navigate = useNavigate();
+  const [
+    confirmRemoveLiquidityOpen,
+    handleConfirmRemoveLiquidityOpen,
+    handleConfirmRemoveLiquidityClose,
+  ] = useModal();
+  const [waitingOpen, handleWaitingOpen, handleWaitingClose] = useModal();
+  const [stakeOpen, handleStakeOpen, handleStakeClose] = useModal();
+  const [snackbarOpen, handleSnackbarOpen, handleSnackbarClose] = useModal();
+
+  const handleWaitingComplete = () => {
+    handleWaitingClose();
+    handleStakeClose();
+    handleSnackbarOpen();
+    // setRowData((rowData: any) => ({ ...rowData, pendingT1: 0, pendingT2: 0, harvestedT1: row }));
+  };
   return (
     <>
       <TableRow
@@ -147,7 +173,7 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
                         Pending {row.token1}
                       </Typography>
                       <Typography className="font-medium text-sm text-sky-500">
-                        {row.pendingT1.toLocaleString()}
+                        {rowData.pendingT1.toLocaleString()}
                       </Typography>
                     </Stack>
                   </Box>
@@ -162,7 +188,7 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
                         Pending {row.token2}
                       </Typography>
                       <Typography className="font-medium text-sm text-sky-500">
-                        {row.pendingT2.toLocaleString()}
+                        {rowData.pendingT2.toLocaleString()}
                       </Typography>
                     </Stack>
                   </Box>
@@ -176,7 +202,7 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
                         Harvested
                       </Typography>
                       <Typography className="font-medium text-sm text-white">
-                        {row.harvestedT1.toLocaleString()}
+                        {rowData.harvestedT1.toLocaleString()}
                       </Typography>
                     </Stack>
                   </Box>
@@ -186,7 +212,7 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
                         Harvested
                       </Typography>
                       <Typography className="font-medium text-sm text-white">
-                        {row.harvestedT2.toLocaleString()}
+                        {rowData.harvestedT2.toLocaleString()}
                       </Typography>
                     </Stack>
                   </Box>
@@ -195,25 +221,24 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
               <Grid xs={5}>
                 <Stack gap={2} className="lg:flex-row items-center h-full">
                   <Button
-                    onClick={() =>
-                      navigate(action === "remove" ? "remove" : "/swap")
-                    }
+                    onClick={() => navigate("add")}
                     variant="contained"
-                    className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white text-zinc-900 rounded-md w-full lg:w-40"
+                    disabled={!row.pendingT1 && !row.pendingT2}
+                    className={`tableRow_button`}
                   >
                     Harvest
                   </Button>
                   <Button
                     onClick={() => navigate("add")}
                     variant="contained"
-                    className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-white/5 dark:text-white text-zinc-900 rounded-md w-full lg:w-40"
+                    className={`tableRow_button dark:bg-white/5`}
                   >
                     Withdraw
                   </Button>
                   <Button
-                    onClick={() => navigate("add")}
+                    onClick={handleStakeOpen}
                     variant="contained"
-                    className="flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-cyan-600 dark:text-white text-zinc-900 rounded-md w-full lg:w-40"
+                    className={`tableRow_button dark:bg-cyan-600`}
                   >
                     Stake
                   </Button>
@@ -223,6 +248,25 @@ export default function FarmTableRow({ row, action }: ILiquidityTableRow) {
           </TableCell>
         )}
       </TableRow>
+      <Modal
+        headerTitle="Stake LP Tokens"
+        onBack={handleStakeClose}
+        open={stakeOpen}
+      >
+        <StakeView
+          token1={row.token1}
+          token2={row.token2}
+          totalStaked={row.totalStaked}
+          waitingOpen={waitingOpen}
+          onWaitingOpen={handleWaitingOpen}
+          onWaitingComplete={handleWaitingComplete}
+        />
+      </Modal>
+      <TransactionSnackbar
+        open={snackbarOpen}
+        onClose={handleSnackbarClose}
+        success={true}
+      />
     </>
   );
 }

@@ -38,28 +38,37 @@ import {
   Stack,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 interface IModal {
   open: boolean;
-  onClose: () => void;
   headerTitle: string;
+  onClose?: () => void;
+  onBack?: () => void;
   children?: ReactNode;
 }
 
-const Modal = ({ open, onClose, children, headerTitle }: IModal) => {
+const Modal = ({ open, onClose, onBack, children, headerTitle }: IModal) => {
   const { darkMode } = useDarkMode();
   return (
-    <MuiModal open={open} onClose={onClose}>
+    <MuiModal open={open} onClose={onClose || onBack}>
       <Box
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] border p-5 rounded-xl ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[470px] border p-5 rounded-xl ${
           darkMode ? "bg-zinc-900 border-zinc-800" : ""
         }`}
       >
         <Box
           className={`${
-            darkMode ? "text-white" : ""
-          } flex items-center justify-between mb-10`}
+            darkMode ? "text-white border-zinc-600" : ""
+          } flex items-center justify-between mb-10 border-b pt-3 pb-5`}
         >
+          {onBack && (
+            <IconButton aria-label="back" onClick={onBack} className="p-0">
+              <ArrowBackOutlinedIcon
+                className={`${darkMode ? "text-white" : ""}`}
+              />
+            </IconButton>
+          )}
           <Typography
             className="dark:text-black font-semibold text-xl"
             variant="h6"
@@ -67,7 +76,12 @@ const Modal = ({ open, onClose, children, headerTitle }: IModal) => {
           >
             {headerTitle}
           </Typography>
-          <IconButton aria-label="close" onClick={onClose} className="p-0">
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            className="p-0 disabled:opacity-0"
+            disabled={!!onBack}
+          >
             <CloseIcon className={`${darkMode ? "text-white" : ""}`} />
           </IconButton>
         </Box>
