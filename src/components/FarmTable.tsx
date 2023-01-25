@@ -45,6 +45,8 @@ const data = [
   {
     token1: "WMTT",
     token2: "MELDt",
+    token1ID: "b34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
+    token2ID: "a34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
     totalStaked: 3873800430,
     emissionsPercentage: 68.2,
     dailyEmission: 8230456,
@@ -56,10 +58,15 @@ const data = [
     pendingT2: 8.36,
     harvestedT1: 12456,
     harvestedT2: 28.63,
+    aprT1: 108.63,
+    aprT2: 4.35,
+    aprFees: 2.33,
   },
   {
     token1: "ADA",
     token2: "TEDY",
+    token1ID: "b34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
+    token2ID: "a34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
     totalStaked: 0,
     emissionsPercentage: 68.2,
     dailyEmission: 8230456,
@@ -71,12 +78,35 @@ const data = [
     pendingT2: 0,
     harvestedT1: 12456,
     harvestedT2: 28.63,
+    aprT1: 108.63,
+    aprT2: 4.35,
+    aprFees: 2.33,
+  },
+  {
+    token1: "cBTC",
+    token2: "iUSD",
+    token1ID: "b34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
+    token2ID: "a34b3ea80060ace9427bda98690a73d33840e27aaa8d6edb7f0c757a",
+    totalStaked: 0,
+    emissionsPercentage: 68.2,
+    dailyEmission: 8230456,
+    yourStake: 12367,
+    apr: 122.63,
+    farm: "Polar Farm",
+    farmIcon: "🐻‍❄️",
+    pendingT1: 1356,
+    pendingT2: 8.36,
+    harvestedT1: 12456,
+    harvestedT2: 28.63,
+    aprT1: 108.63,
+    aprT2: 4.35,
+    aprFees: 2.33,
   },
 ];
 
 const rows = Array(10)
   .fill(0)
-  .map((item, i) => (i % 2 == 0 ? data[0] : data[1]));
+  .map((item, i) => data[i % data.length]);
 
 const tableHeadCell = `dark:text-white border-zinc-800 py-2 text-sm px-6`;
 const tableCell = `dark:text-white border-zinc-800 text-base px-6`;
@@ -116,11 +146,7 @@ export default function FarmTable() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <FarmTableRow
-              key={`${row.token1}/${row.token2}`}
-              row={row}
-              action="swap"
-            />
+            <FarmTableRow key={`${row.token1}/${row.token2}`} row={row} />
           ))}
         </TableBody>
       </Table>

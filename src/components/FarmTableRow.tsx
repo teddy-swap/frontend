@@ -13,13 +13,15 @@ import {
   Accordion,
   AccordionSummary,
   Stack,
+  Tooltip,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useState, MouseEventHandler } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
 import { HiBadgeCheck } from "react-icons/hi";
+import { MdInfo } from "react-icons/md";
 import Modal, { useModal } from "./Modal";
 import RemoveLiquidity from "../routes/RemoveLiquidity";
 import StakeModal from "./StakeModal";
@@ -27,6 +29,8 @@ import ConfirmLiquidityView from "./ConfirmLiquidityView";
 import TransactionSnackbar from "./TransactionSnackbar";
 import WaitingModal from "./WaitingModal";
 import WithdrawModal from "./WithdrawModal";
+import TokenAvatar from "./TokenAvatar";
+import TokenAvatarGroup from "./TokenAvatarGroup";
 
 interface Props {
   row: any;
@@ -91,6 +95,13 @@ export default function FarmTableRow({ row }: Props) {
       harvestedT2: rowData.harvestedT2 + row.pendingT2,
     }));
   };
+
+  const handleClick: MouseEventHandler<HTMLTableRowElement> = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
+    setShow(!show);
+  };
   return (
     <>
       <TableRow
@@ -103,23 +114,17 @@ export default function FarmTableRow({ row }: Props) {
         }}
         // sx={{ border: 1 }}
         hover={true}
-        onClick={() => setShow(!show)}
+        onClick={handleClick}
         className="cursor-pointer"
       >
         <TableCell className={tableCell} component="th" scope="row">
           <Box className="flex items-center gap-4">
-            <AvatarGroup>
-              <Avatar
-                className={tokenAvatar}
-                alt={row.token1}
-                src={`images/${row.token1.toLowerCase()}.png`}
-              />
-              <Avatar
-                className={tokenAvatar + " z-10"}
-                alt={row.token2}
-                src={`images/${row.token2.toLowerCase()}.png`}
-              />
-            </AvatarGroup>
+            <TokenAvatarGroup
+              token1={row.token1}
+              token2={row.token2}
+              token1ID={row.token1ID}
+              token2ID={row.token2ID}
+            />
             <Typography className="font-semibold">
               {row.token1}/{row.token2}
             </Typography>
@@ -140,26 +145,56 @@ export default function FarmTableRow({ row }: Props) {
         </TableCell>
         <TableCell className={tableCell}>
           <Box className="flex flex-col items-end">
-            <Box className="flex gap-1 items-center">
-              <span className="text-xl">{row.farmIcon}</span>
+            <Box className="flex gap-1 items-center round">
+              <Tooltip
+                title={`${row.farm}: ${row.apr}%`}
+                placement="top"
+                arrow={true}
+                classes={{
+                  tooltip: "bg-sky-800 top-1 p-3 rounded-xl text-xs",
+                  arrow: "text-sky-800",
+                }}
+              >
+                <span className="text-xl">{row.farmIcon}</span>
+              </Tooltip>
               <span className="text-xs">{row.farm}</span>
+              <Tooltip
+                title={
+                  <Stack className="gap-1 p-1">
+                    <Typography className="text-xs">
+                      {row.token1} APR: {row.aprT1}%
+                    </Typography>
+                    <Typography className="text-xs">
+                      {row.token2} APR: {row.aprT2}%
+                    </Typography>
+                    <Typography className="text-xs">
+                      Trading Fees APR (30D): {row.aprFees}%
+                    </Typography>
+                  </Stack>
+                }
+                placement="top"
+                arrow={true}
+                classes={{
+                  tooltip: "bg-sky-900 top-1 p-3 rounded-xl text-xs",
+                  arrow: "text-sky-800",
+                }}
+              >
+                <span>
+                  <MdInfo className="" />
+                </span>
+              </Tooltip>
             </Box>
             <Box className="flex gap-2 items-center">
               <Typography className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-500">
                 {row.apr}%
               </Typography>
-              <AvatarGroup className="">
-                <Avatar
-                  className={aprTokenAvatar}
-                  alt={row.token1}
-                  src={`images/${row.token1.toLowerCase()}.png`}
-                />
-                <Avatar
-                  className={aprTokenAvatar + " z-10"}
-                  alt={row.token2}
-                  src={`images/${row.token2.toLowerCase()}.png`}
-                />
-              </AvatarGroup>
+              <TokenAvatarGroup
+                token1={row.token1}
+                token2={row.token2}
+                token1ID={row.token1ID}
+                token2ID={row.token2ID}
+                tokenStyle="h-5 w-5"
+              />
             </Box>
           </Box>
         </TableCell>

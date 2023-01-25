@@ -24,9 +24,9 @@ function App() {
   return (
     <div className={`${darkMode ? "dark bg-black" : ""} dark:bg-black`}>
       <div
-        className={`bg-gradient-to-t min-h-screen p-4 ${
+        className={`bg-gradient-to-tr min-h-screen p-4 ${
           darkMode
-            ? "from-sky-900/50 to-cyan-800"
+            ? "from-sky-900/50 via-sky-900/70 to-cyan-800"
             : "from-emerald-100 to-emerald-100/10"
         }`}
       >

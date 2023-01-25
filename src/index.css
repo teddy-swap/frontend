@@ -39,4 +39,7 @@ body {
   .tableRow_button {
     @apply flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white text-zinc-900 rounded-md w-full lg:w-40 disabled:opacity-40 transition;
   }
+  .tooltip_button {
+    @apply flex-grow text-xs px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-cyan-600 dark:text-white text-zinc-900 rounded-md disabled:opacity-40 transition;
+  }
 }
