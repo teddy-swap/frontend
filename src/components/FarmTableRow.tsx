@@ -22,10 +22,11 @@ import { useNavigate } from "react-router-dom";
 import { HiBadgeCheck } from "react-icons/hi";
 import Modal, { useModal } from "./Modal";
 import RemoveLiquidity from "../routes/RemoveLiquidity";
-import StakeView from "./StakeView";
+import StakeModal from "./StakeModal";
 import ConfirmLiquidityView from "./ConfirmLiquidityView";
 import TransactionSnackbar from "./TransactionSnackbar";
 import WaitingModal from "./WaitingModal";
+import WithdrawModal from "./WithdrawModal";
 
 interface Props {
   row: any;
@@ -51,15 +52,44 @@ export default function FarmTableRow({ row }: Props) {
     handleConfirmRemoveLiquidityOpen,
     handleConfirmRemoveLiquidityClose,
   ] = useModal();
-  const [waitingOpen, handleWaitingOpen, handleWaitingClose] = useModal();
+  const [stakeWaitingOpen, handleStakeWaitingOpen, handleStakeWaitingClose] =
+    useModal();
+  const [
+    withdrawWaitingOpen,
+    handleWithdrawWaitingOpen,
+    handleWithdrawWaitingClose,
+  ] = useModal();
+  const [
+    harvestWaitingOpen,
+    handleHarvestWaitingOpen,
+    handleHarvestWaitingClose,
+  ] = useModal();
   const [stakeOpen, handleStakeOpen, handleStakeClose] = useModal();
+  const [withdrawOpen, handleWithdrawOpen, handleWithdrawClose] = useModal();
   const [snackbarOpen, handleSnackbarOpen, handleSnackbarClose] = useModal();
 
-  const handleWaitingComplete = () => {
-    handleWaitingClose();
+  const handleStakeWaitingComplete = () => {
+    handleStakeWaitingClose();
     handleStakeClose();
     handleSnackbarOpen();
-    // setRowData((rowData: any) => ({ ...rowData, pendingT1: 0, pendingT2: 0, harvestedT1: row }));
+  };
+
+  const handleWithdrawWaitingComplete = () => {
+    handleWithdrawWaitingClose();
+    handleWithdrawClose();
+    handleSnackbarOpen();
+  };
+
+  const handleHarvestWaitingComplete = () => {
+    handleHarvestWaitingClose();
+    handleSnackbarOpen();
+    setRowData((rowData: any) => ({
+      ...rowData,
+      pendingT1: 0,
+      pendingT2: 0,
+      harvestedT1: rowData.harvestedT1 + row.pendingT1,
+      harvestedT2: rowData.harvestedT2 + row.pendingT2,
+    }));
   };
   return (
     <>
@@ -221,15 +251,15 @@ export default function FarmTableRow({ row }: Props) {
               <Grid xs={5}>
                 <Stack gap={2} className="lg:flex-row items-center h-full">
                   <Button
-                    onClick={() => navigate("add")}
+                    onClick={handleHarvestWaitingOpen}
                     variant="contained"
-                    disabled={!row.pendingT1 && !row.pendingT2}
+                    disabled={!rowData.pendingT1 && !rowData.pendingT2}
                     className={`tableRow_button`}
                   >
                     Harvest
                   </Button>
                   <Button
-                    onClick={() => navigate("add")}
+                    onClick={handleWithdrawOpen}
                     variant="contained"
                     className={`tableRow_button dark:bg-white/5`}
                   >
@@ -248,20 +278,33 @@ export default function FarmTableRow({ row }: Props) {
           </TableCell>
         )}
       </TableRow>
-      <Modal
-        headerTitle="Stake LP Tokens"
+      <StakeModal
         onBack={handleStakeClose}
         open={stakeOpen}
-      >
-        <StakeView
-          token1={row.token1}
-          token2={row.token2}
-          totalStaked={row.totalStaked}
-          waitingOpen={waitingOpen}
-          onWaitingOpen={handleWaitingOpen}
-          onWaitingComplete={handleWaitingComplete}
-        />
-      </Modal>
+        token1={row.token1}
+        token2={row.token2}
+        stakedTokens={row.totalStaked}
+        waitingOpen={stakeWaitingOpen}
+        onWaitingOpen={handleStakeWaitingOpen}
+        onWaitingComplete={handleStakeWaitingComplete}
+      />
+      <WithdrawModal
+        onBack={handleWithdrawClose}
+        open={withdrawOpen}
+        token1={row.token1}
+        token2={row.token2}
+        stakedTokens={row.totalStaked}
+        waitingOpen={withdrawWaitingOpen}
+        onWaitingOpen={handleWithdrawWaitingOpen}
+        onWaitingComplete={handleWithdrawWaitingComplete}
+      />
+      <WaitingModal
+        open={harvestWaitingOpen}
+        onClose={handleHarvestWaitingComplete}
+        text={`Harvest ${row.pendingT1.toLocaleString()} ${
+          row.token1
+        } / ${row.pendingT2.toLocaleString()} ${row.token2}`}
+      />
       <TransactionSnackbar
         open={snackbarOpen}
         onClose={handleSnackbarClose}

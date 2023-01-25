@@ -35,7 +35,7 @@ import TokensImageGroup from "./TokensImageGroup";
 import { AiFillWarning } from "react-icons/ai";
 import WaitingModal from "./WaitingModal";
 
-const StakeView = (props: Props) => {
+const StakeModal = (props: Props) => {
   const { darkMode } = useDarkMode();
 
   const [expanded, setExpanded] = useState(false);
@@ -67,10 +67,14 @@ const StakeView = (props: Props) => {
   const sliderButtons = [25, 50, 75, 100];
 
   const getStakedAmount = () =>
-    ((props.totalStaked * amount) / 100).toLocaleString();
+    ((props.stakedTokens * amount) / 100).toLocaleString();
 
   return (
-    <>
+    <Modal
+      headerTitle="Stake LP Tokens"
+      onBack={props.onBack}
+      open={props.open}
+    >
       <Stack className="items-center space-y-8 p-0">
         <Box className="flex items-center w-full gap-4">
           <TokensImageGroup token1={props.token1} token2={props.token2} />
@@ -94,7 +98,7 @@ const StakeView = (props: Props) => {
             {getStakedAmount()}
           </Typography>
           <Slider
-            disabled={props.totalStaked === 0}
+            disabled={props.stakedTokens === 0}
             aria-label=""
             defaultValue={25}
             valueLabelDisplay="auto"
@@ -106,7 +110,7 @@ const StakeView = (props: Props) => {
             max={100}
             className={`w-[calc(100%_-_20px)] ml-2.5 ${
               darkMode ? "text-zinc-300" : ""
-            } ${props.totalStaked === 0 ? "opacity-50" : "opacity-100"}`}
+            } ${props.stakedTokens === 0 ? "opacity-50" : "opacity-100"}`}
             classes={{
               mark: `w-2.5 h-2.5 rounded-full opacity-100 ${
                 darkMode ? "" : ""
@@ -124,7 +128,7 @@ const StakeView = (props: Props) => {
               <Button
                 onClick={() => setAmount(button)}
                 variant="outlined"
-                disabled={props.totalStaked === 0}
+                disabled={props.stakedTokens === 0}
                 className={`${
                   darkMode ? "text-white" : ""
                 } rounded-xl flex-1 py-2 text-lg disabled:opacity-40 ${
@@ -144,9 +148,10 @@ const StakeView = (props: Props) => {
         </Stack>
 
         <Box className="w-full">
-          {props.totalStaked === 0 ? (
+          {props.stakedTokens === 0 ? (
             <Typography className="text-red-600 text-sm text-center">
-              No tokens to stake ADA / USDA LP. You can Add Liquidity
+              No tokens to stake {props.token1} / {props.token2} LP. You can Add
+              Liquidity
             </Typography>
           ) : (
             <Box className="messageBox">
@@ -159,7 +164,7 @@ const StakeView = (props: Props) => {
           )}
         </Box>
         <Stack className="gap-4 w-full">
-          {props.totalStaked === 0 && (
+          {props.stakedTokens === 0 && (
             <Button
               onClick={handleConfirmRemoveLiquidityOpen}
               variant="contained"
@@ -191,17 +196,19 @@ const StakeView = (props: Props) => {
         onClose={props.onWaitingComplete}
         text={`Stake ${getStakedAmount()} ${props.token1} / ${props.token2} LP`}
       />
-    </>
+    </Modal>
   );
 };
 
 interface Props {
   token1: string;
   token2: string;
-  totalStaked: number;
+  stakedTokens: number;
+  open: boolean;
+  onBack: () => void;
   waitingOpen: boolean;
   onWaitingOpen: () => void;
   onWaitingComplete: () => void;
 }
 
-export default StakeView;
+export default StakeModal;
