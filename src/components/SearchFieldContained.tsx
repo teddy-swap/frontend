@@ -2,9 +2,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { TextField, Box } from "@mui/material";
 import { BiSearch } from "react-icons/bi";
 
-const SearchField = (props: Props) => (
+const SearchFieldContained = (props: Props) => (
   <Box
-    className={`flex rounded-lg items-center dark:bg-zinc-900/50 border dark:border-zinc-500 w-80`}
+    className={`flex rounded-md items-center dark:bg-cyan-900/10 border dark:border-cyan-900/80`}
   >
     <BiSearch className={`ml-3 w-5 h-5 dark:text-zinc-500`} />
     <TextField
@@ -12,11 +12,11 @@ const SearchField = (props: Props) => (
       id="outlined-adornment-weight"
       aria-describedby="outlined-weight-helper-text"
       placeholder={props.placeholder}
-      className="w-full px-1"
+      className="w-full px-1 py-0.5"
       InputProps={{
         classes: {
           notchedOutline: "border-none",
-          input: `searchField_input`,
+          input: `text-sm font-medium py-2 px-1 w-full dark:text-white dark:placeholder:text-zinc-300 placeholder:font-medium`,
         },
       }}
     />
@@ -27,4 +27,4 @@ interface Props {
   placeholder: string;
 }
 
-export default SearchField;
+export default SearchFieldContained;

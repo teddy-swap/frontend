@@ -23,6 +23,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useDarkMode } from "../contexts";
+import TokenAvatar from "./TokenAvatar";
+import { MdAdd, MdOutlineArrowDownward } from "react-icons/md";
+import { IconType } from "react-icons/lib";
+import dayjs from "dayjs";
 
 interface HistoryTableRow {
   row: any;
@@ -48,10 +52,15 @@ export default function HistoryTableRow({ row, action }: HistoryTableRow) {
 
   const { darkMode } = useDarkMode();
 
+  const ActionIcon: { [key: string]: IconType } = {
+    swap: MdOutlineArrowDownward,
+    deposit: MdAdd,
+    withdraw: MdOutlineArrowDownward,
+  };
+
   return (
     <>
       <TableRow
-        key={row.token1 + "/" + row.token2}
         sx={{
           "&:not(:last-of-type) td, &:not(:last-of-type) th": {
             borderBottom: show ? 0 : 1,
@@ -65,29 +74,40 @@ export default function HistoryTableRow({ row, action }: HistoryTableRow) {
           component="th"
           scope="row"
         >
-          <Box className="flex items-center gap-4">
-            <AvatarGroup>
-              <Avatar
-                className={tokenAvatar}
-                alt={row.token1}
-                src={`images/${row.token1.toLowerCase()}.png`}
-              />
-              <Avatar
-                className={tokenAvatar}
-                alt={row.token2}
-                src={`images/${row.token2.toLowerCase()}.png`}
-              />
-            </AvatarGroup>
-            <Typography className="font-semibold">
-              {row.token1}/{row.token2}
-            </Typography>
-          </Box>
+          <Stack gap={1} className="items-center w-44">
+            <Box className="flex justify-between border border-cyan-800 px-3 py-1.5 rounded-md w-full">
+              <Box className="flex items-center space-x-2">
+                <TokenAvatar token={row.token1} noTooltip className="h-5 w-5" />
+                <Typography className="font-semibold text-sm">
+                  {row.token1}
+                </Typography>
+              </Box>
+              <Typography className="font-semibold text-sm">
+                {row.valueT1.toLocaleString()}
+              </Typography>
+            </Box>
+            <Box className="bg-cyan-800 rounded-md p-0.5 -my-3.5 z-10">
+              {ActionIcon[row.action](row.action)}
+            </Box>
+            <Box className="flex justify-between border border-cyan-800 px-3 py-1.5 rounded-md w-full">
+              <Box className="flex items-center space-x-2">
+                <TokenAvatar token={row.token2} noTooltip className="h-5 w-5" />
+                <Typography className="font-semibold text-sm">
+                  {row.token2}
+                </Typography>
+              </Box>
+              <Typography className="font-semibold text-sm">
+                {row.valueT2.toLocaleString()}
+              </Typography>
+            </Box>
+          </Stack>
         </TableCell>
         <TableCell className={`tableCell dark:border-zinc-800`}>
           {row.action}
         </TableCell>
         <TableCell className={`tableCell dark:border-zinc-800`}>
-          {row.date}
+          <Typography>{dayjs(row.dateTime).format("MMMM D, YYYY")}</Typography>
+          <Typography>{dayjs(row.dateTime).format("hh:mm A")}</Typography>
         </TableCell>
         <TableCell className={`tableCell dark:border-zinc-800`}>
           <Box className="flex justify-start">
@@ -108,16 +128,13 @@ export default function HistoryTableRow({ row, action }: HistoryTableRow) {
         <TableCell className={`tableCell dark:border-zinc-800`}>
           <Box className="flex justify-end">
             <Button
+              size="small"
               onClick={handleClick}
               variant="outlined"
-              className="text-black px-0 border rounded dark:border-zinc-700 hover:bg-gray-50 hover:bg-white/10 min-w-[2rem] min-h-[2rem]"
+              className="text-black p-0 w-0 h-0 border rounded dark:border-zinc-700 hover:bg-gray-50 hover:bg-white/10 min-w-[2rem] min-h-[2rem]"
               classes={{ startIcon: "m-0" }}
               startIcon={
-                <MoreHorizIcon
-                  className={`w-5 h-5 text-white transition ${
-                    show ? "rotate-180" : "rotate-0"
-                  }`}
-                />
+                <MoreHorizIcon className={`w-4 h-4 text-white transition`} />
               }
             />
             <Menu

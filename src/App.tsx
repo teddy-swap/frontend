@@ -17,6 +17,7 @@ import AddLiquidity from "./routes/AddLiquidity";
 import RemoveLiquidity from "./routes/RemoveLiquidity";
 import History from "./routes/History";
 import Farm from "./routes/Farm";
+import Orders from "./routes/Orders";
 
 function App() {
   const { darkMode } = useDarkMode();
@@ -54,6 +55,7 @@ function App() {
               <Route path="/liquidity/remove" element={<RemoveLiquidity />} />
               <Route path="/farm" element={<Farm />} />
               <Route path="/history" element={<History />} />
+              <Route path="/orders" element={<Orders />} />
             </Routes>
           </main>
         </BrowserRouter>

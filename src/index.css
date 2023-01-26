@@ -35,6 +35,10 @@ body {
   @apply text-sm font-medium py-2 px-1 w-full dark:text-white dark:placeholder:text-zinc-300;
 }
 
+.searchField_input--orders {
+  @apply text-sm font-medium py-2 px-1 w-full dark:text-white dark:placeholder:text-zinc-300;
+}
+
 @layer components {
   .tableRow_button {
     @apply flex-grow text-base px-6 font-medium capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white text-zinc-900 rounded-md w-full lg:w-40 disabled:opacity-40 transition;
