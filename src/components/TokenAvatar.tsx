@@ -54,7 +54,7 @@ const TokenAvatar = (props: Props) =>
 
 type Props = {
   token: string;
-  noTooltip: boolean;
+  noTooltip?: boolean;
   tokenId?: string;
   className?: string;
 };

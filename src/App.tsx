@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import "./index.css";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import SwapCard from "./components/SwapCard";
+import Swap from "./routes/Swap";
 import { useDarkMode } from "./contexts/index";
 import {
   BrowserRouter,
@@ -48,8 +48,8 @@ function App() {
           <ResponsiveAppBar />
           <main className="z-10 flex justify-center w-full pt-40">
             <Routes>
-              <Route path="/" element={<SwapCard />} />
-              <Route path="/swap" element={<SwapCard />} />
+              <Route path="/" element={<Swap />} />
+              <Route path="/swap" element={<Swap />} />
               <Route path="/liquidity" element={<Liquidity />} />
               <Route path="/liquidity/add" element={<AddLiquidity />} />
               <Route path="/liquidity/remove" element={<RemoveLiquidity />} />

@@ -59,7 +59,7 @@ const Modal = ({ open, onClose, onBack, children, headerTitle }: IModal) => {
       >
         <Box
           className={`${
-            darkMode ? "text-white border-zinc-600" : ""
+            darkMode ? "text-white border-zinc-700" : ""
           } flex items-center justify-between mb-10 border-b pt-3 pb-5`}
         >
           {onBack && (

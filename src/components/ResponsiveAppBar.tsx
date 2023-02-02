@@ -34,6 +34,7 @@ import { Alert, AlertTitle, Link, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal, { useModal } from "./Modal";
 import { NavLink, useNavigate } from "react-router-dom";
+import WalletMenu from "./WalletMenu";
 
 const pages = ["swap", "liquidity", "farm", "orders"];
 
@@ -41,20 +42,31 @@ function ResponsiveAppBar() {
   const { darkMode } = useDarkMode();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [anchorElWalletMenu, setAnchorElWalletMenu] =
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenWalletMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElWalletMenu(event.currentTarget);
+  };
+
+  const handleCloseWalletMenu = () => {
+    setAnchorElWalletMenu(null);
   };
 
   const settings = [
@@ -145,6 +157,8 @@ function ResponsiveAppBar() {
 
   const navigate = useNavigate();
 
+  const walletAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+
   return (
     <AppBar className="fixed px-10 py-0 text-black bg-white shadow-sm dark:bg-slate-900/70 dark:text-white">
       <Toolbar disableGutters>
@@ -226,7 +240,7 @@ function ResponsiveAppBar() {
               <Modal
                 open={walletModalOpen}
                 onClose={handleWalletModalClose}
-                headerTitle="Select a wallet"
+                headerTitle="Connect wallet"
               >
                 <Stack className="gap-3">
                   <Alert
@@ -238,35 +252,72 @@ function ResponsiveAppBar() {
                     have read and understand the{" "}
                     <Link href="#">Protocol disclaimer</Link>.
                   </Alert>
-                  {wallets.map((wallet) => (
-                    <Button
-                      onClick={wallet.onClick}
-                      variant="outlined"
-                      key={wallet.name}
-                      className="capitalize text-white bg-transparent border border-zinc-800 flex justify-between w-full rounded-xl p-4"
-                    >
-                      <Typography>{wallet.name}</Typography>
-                      <img
-                        src={`/images/${wallet.key}.png`}
-                        alt={wallet.name}
-                        className="h-8"
-                      />
-                    </Button>
-                  ))}
+                  <Stack
+                    className={`rounded-xl border overflow-hidden ${
+                      darkMode ? "border-zinc-700" : ""
+                    }`}
+                  >
+                    {wallets.map((wallet) => (
+                      <Box
+                        className={`[&:not(:last-child)]:border-b ${
+                          darkMode ? "border-zinc-700" : ""
+                        }`}
+                      >
+                        <Button
+                          onClick={wallet.onClick}
+                          variant="outlined"
+                          key={wallet.name}
+                          className={`capitalize text-white bg-transparent rounded-none flex justify-between w-full p-4 ${
+                            darkMode ? "hover:bg-cyan-900/80" : ""
+                          }`}
+                          classes={{
+                            root: `border-none`,
+                          }}
+                        >
+                          <Typography>{wallet.name}</Typography>
+                          <img
+                            src={`/images/${wallet.key}.png`}
+                            alt={wallet.name}
+                            className="h-8"
+                          />
+                        </Button>
+                      </Box>
+                    ))}
+                  </Stack>
                 </Stack>
               </Modal>
             </Box>
           ) : (
             <Box className="text-black dark:text-white border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-white/10 rounded-md min-h-[2.5rem] flex items-center px-1 pl-2 gap-2">
               <Typography>3,400.6254 ₳</Typography>
-              <Box className="flex items-center gap-1 p-1 rounded shadow-md dark:bg-black">
-                <img
-                  src={`/images/${connectedWallet}.png`}
-                  alt={connectedWallet}
-                  className="h-5"
-                />
-                <Typography>addr1...qk5lyz1h</Typography>
-              </Box>
+              <Tooltip title="Wallet">
+                <Button
+                  onClick={handleOpenWalletMenu}
+                  className="flex items-center gap-2 p-1 px-2 rounded shadow-md dark:bg-black hover:bg-white/10"
+                  TouchRippleProps={{
+                    classes: {
+                      root: "focus-visible:color-white",
+                    },
+                  }}
+                >
+                  <img
+                    src={`/images/${connectedWallet}.png`}
+                    alt={connectedWallet}
+                    className="h-5"
+                  />
+                  <Typography className="lowercase text-white">
+                    addr{walletAddress.slice(0, 1)}...{walletAddress.slice(-7)}
+                  </Typography>
+                  <KeyboardArrowDownIcon className="text-white w-4" />
+                </Button>
+              </Tooltip>
+              <WalletMenu
+                wallets={["nami"]}
+                handleSelect={(wallet) => null}
+                anchorEl={anchorElWalletMenu}
+                onClose={handleCloseWalletMenu}
+                connectedWallet={connectedWallet}
+              />
             </Box>
           )}
           <Tooltip title="Transaction History">

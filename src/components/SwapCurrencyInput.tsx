@@ -1,8 +1,17 @@
 import { Box } from "@mui/material";
 import { InputLabel, FormHelperText, TextField } from "@mui/material";
 import SwapListModal from "./SwapListModal";
+import { ChangeEvent, useState } from "react";
 
-export default function SwapCurrencyInput(props: SwapCurrencyInputProps) {
+export default function SwapCurrencyInput(props: Props) {
+  const [value, setValue] = useState(props.value ?? 0);
+
+  const handleChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setValue(
+      target.value === "" ? 0 : parseFloat(target.value.replaceAll(",", ""))
+    );
+  };
   return (
     <Box className="w-full">
       <InputLabel className="mb-1 ml-2 text-sm dark:text-zinc-400">
@@ -12,9 +21,9 @@ export default function SwapCurrencyInput(props: SwapCurrencyInputProps) {
         <Box className="ml-1">
           <TextField
             variant="outlined"
-            id="outlined-adornment-weight"
-            aria-describedby="outlined-weight-helper-text"
-            value={props.value?.toLocaleString()}
+            // type="number"
+            value={value?.toLocaleString()}
+            onChange={handleChange}
             defaultValue={props.defaultValue?.toLocaleString()}
             placeholder={props.placeholder}
             className=""
@@ -26,9 +35,10 @@ export default function SwapCurrencyInput(props: SwapCurrencyInputProps) {
               },
             }}
           />
+
           <FormHelperText
             id="outlined-weight-helper-text"
-            className="dark:text-zinc-400"
+            className={`dark:text-zinc-400 transition ${!value && "opacity-0"}`}
           >
             ~ {props.equivCurrency}
             {props.equivValue.toLocaleString()}
@@ -49,7 +59,7 @@ export default function SwapCurrencyInput(props: SwapCurrencyInputProps) {
   );
 }
 
-interface SwapCurrencyInputProps {
+interface Props {
   label: string;
   placeholder: string;
   currency: string;
