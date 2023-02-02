@@ -20,6 +20,7 @@ import { connectedWalletState } from "../contexts/recoil";
 import SettingsModal from "../components/SettingsModal";
 import TokensImageGroup from "../components/TokensImageGroup";
 import ChartView from "../components/ChartView";
+import { RiBarChartFill } from "react-icons/ri";
 
 export default function Swap() {
   const { darkMode } = useDarkMode();
@@ -63,6 +64,7 @@ export default function Swap() {
   };
 
   const [stakeOpen, handleStakeOpen, handleStakeClose] = useModal();
+  const [showChart, setShowChart] = useState(false);
 
   const props = {
     token1: "ADA",
@@ -78,10 +80,13 @@ export default function Swap() {
         <CardHeader
           action={
             <Stack direction="row">
-              <IconButton aria-label="tune" onClick={handleStakeOpen}>
-                <TuneIcon className="w-6 h-6 dark:text-white" />
+              <IconButton
+                aria-label="chart"
+                onClick={() => setShowChart(!showChart)}
+              >
+                <RiBarChartFill className="w-6 h-6 dark:text-white" />
               </IconButton>
-              <IconButton aria-label="tune" onClick={handleStakeOpen}>
+              <IconButton aria-label="settings" onClick={handleStakeOpen}>
                 <TuneIcon className="w-6 h-6 dark:text-white" />
               </IconButton>
             </Stack>
@@ -354,222 +359,50 @@ export default function Swap() {
           </Alert>
         </Snackbar>
       </Card>
-      <Card className="z-10 max-w-5xl p-6 space-y-4 border border-gray-200 shadow-lg dark:border-zinc-900 rounded-xl dark:bg-zinc-900">
-        <CardContent className="flex flex-col items-center space-y-3 p-0">
-          <Box className="flex justify-between items-center w-full">
-            <Box className="flex items-center gap-4">
-              <TokensImageGroup token1={props.token1} token2={props.token2} />
-              <Typography
-                className={`font-semibold text-xl ${
-                  darkMode ? "text-white" : ""
-                }`}
-              >
-                {props.token1}/{props.token2}
-              </Typography>
-            </Box>
-            <Box className="flex flex-col items-end">
-              <Typography
-                className={`font-semibold text-3xl ${
-                  darkMode ? "text-white" : ""
-                }`}
-              >
-                {props.valueT1}
-              </Typography>
-              <Box className="flex gap-2">
+      {showChart && (
+        <Card className="z-10 max-w-5xl p-6 space-y-4 border border-gray-200 shadow-lg dark:border-zinc-900 rounded-xl dark:bg-zinc-900">
+          <CardContent className="flex flex-col items-center space-y-3 p-0">
+            <Box className="flex justify-between items-center w-full">
+              <Box className="flex items-center gap-4">
+                <TokensImageGroup token1={props.token1} token2={props.token2} />
                 <Typography
-                  className={`font-semibold text-xs ${
-                    darkMode ? "text-sky-500" : ""
-                  }`}
-                >
-                  +{props.addedPercentageT1}% (${props.addedValueT1})
-                </Typography>
-                <Typography
-                  className={`font-semibold text-xs ${
+                  className={`font-semibold text-xl ${
                     darkMode ? "text-white" : ""
                   }`}
                 >
-                  Today
+                  {props.token1}/{props.token2}
                 </Typography>
               </Box>
-            </Box>
-          </Box>
-          <ChartView />
-        </CardContent>
-        <Modal
-          headerTitle="Confirm swap"
-          onClose={handleConfirmSwapClose}
-          open={confirmSwapOpen}
-        >
-          <Stack className="gap-4">
-            <Stack className="gap-1">
-              <Box
-                className={`flex justify-between w-full px-2 py-2 rounded-xl ${
-                  darkMode ? "bg-zinc-800/50" : "bg-zinc-50"
-                }`}
-              >
-                <Box className="ml-1">
-                  <Typography
-                    className={`text-2xl font-semibold py-2 px-1 ${
-                      darkMode ? "text-white placeholder:text-zinc-600" : ""
-                    }`}
-                  >
-                    2,000
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col items-end">
-                  <Box
-                    className={`flex gap-2 p-3 border dark:border-zinc-700 rounded-xl ${
-                      darkMode ? "bg-black border-zinc-700" : ""
-                    }`}
-                  >
-                    <img src={`images/wmtt.png`} alt={"WMTt"} className="h-6" />
-                    <Typography
-                      className={`font-semibold normal-case whitespace-nowrap ${
-                        darkMode ? "text-white" : "text-black"
-                      }`}
-                    >
-                      WMTt
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-              <Box
-                className={`flex justify-between w-full px-2 py-2 rounded-xl ${
-                  darkMode ? "bg-zinc-800/50" : "bg-zinc-50"
-                }`}
-              >
-                <Box className="ml-1">
-                  <Typography
-                    className={`text-2xl font-semibold py-2 px-1 ${
-                      darkMode ? "text-white placeholder:text-zinc-600" : ""
-                    }`}
-                  >
-                    22.309498
-                  </Typography>
-                </Box>
-                <Box className="flex flex-col items-end">
-                  <Box
-                    className={`flex gap-2 p-3 border dark:border-zinc-700 rounded-xl ${
-                      darkMode ? "bg-black border-zinc-700" : ""
-                    }`}
-                  >
-                    <img
-                      src={`images/meldt.png`}
-                      alt={"MELDt"}
-                      className="h-6"
-                    />
-                    <Typography
-                      className={`font-semibold normal-case whitespace-nowrap ${
-                        darkMode ? "text-white" : "text-black"
-                      }`}
-                    >
-                      MELDt
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </Stack>
-            <Box
-              className={`w-full p-4 space-y-2 rounded-xl ${
-                darkMode ? "bg-zinc-800/50 text-white" : ""
-              }`}
-            >
-              <Box className="flex justify-between">
-                <Typography className="text-sm font-medium">
-                  Slippage Tolerance:
-                </Typography>
-                <Typography className="text-sm font-medium">3%</Typography>
-              </Box>
-              <Box className="flex justify-between">
-                <Typography className="text-sm font-medium">Nitro:</Typography>
-                <Typography className="text-sm font-medium">1.2</Typography>
-              </Box>
-              <Box className="flex justify-between">
-                <Typography className="text-sm font-medium">
-                  Estimated output:
-                </Typography>
-                <Typography className="text-sm font-medium">
-                  21.660323 - 25.992387 cNETA
-                </Typography>
-              </Box>
-              <Box className="flex justify-between">
-                <Typography className="text-sm font-medium">
-                  Refundable deposit:
-                </Typography>
-                <Typography className="text-sm font-medium">2 ADA</Typography>
-              </Box>
-              <Box className="flex justify-between">
-                <Typography className="text-sm font-medium">
-                  Total Fees
-                </Typography>
-                <Typography className="text-sm font-medium">
-                  3 - 3.4 ADA
-                </Typography>
-              </Box>
-            </Box>
-            <Button
-              onClick={handleWaitingOpen}
-              variant="contained"
-              className={`w-full py-4 text-xl font-bold capitalize shadow-none bg-emerald-100 dark:bg-sky-700 dark:text-white rounded-xl ${
-                darkMode ? "bg-sky-700 text-white" : ""
-              }`}
-            >
-              Confirm Swap
-            </Button>
-            <Modal
-              headerTitle="Waiting for confirmation"
-              onClose={handleWaitingClose}
-              open={waitingOpen}
-            >
-              <Stack className="w-full py-6 items-center gap-3">
-                <CircularProgress className="my-6" size={100} />
-                <Typography className={`${darkMode ? "text-white" : ""}`}>
-                  Swapping 2,000 ADA for 22.309498 cNETA
-                </Typography>
+              <Box className="flex flex-col items-end">
                 <Typography
-                  className={`text-sm ${darkMode ? "text-white" : ""}`}
+                  className={`font-semibold text-3xl ${
+                    darkMode ? "text-white" : ""
+                  }`}
                 >
-                  Confirm this transaction in your wallet
+                  {props.valueT1}
                 </Typography>
-              </Stack>
-            </Modal>
-          </Stack>
-        </Modal>
-        <SettingsModal onClose={handleStakeClose} open={stakeOpen} />
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={snackbarOpen}
-          onClose={handleSnackbarClose}
-          message="I love snacks"
-          key={"top right"}
-          className="top-16 right-10"
-        >
-          <Alert
-            icon={false}
-            severity="success"
-            onClose={handleSnackbarClose}
-            className="w-full dark:bg-zinc-900 dark:text-white rounded-lg shadow-lg"
-          >
-            <Box className="flex items-center gap-3 p-2">
-              <Box>
-                <TickCircleIcon className="w-24 h-24 text-sky-500" />
+                <Box className="flex gap-2">
+                  <Typography
+                    className={`font-semibold text-xs ${
+                      darkMode ? "text-sky-500" : ""
+                    }`}
+                  >
+                    +{props.addedPercentageT1}% (${props.addedValueT1})
+                  </Typography>
+                  <Typography
+                    className={`font-semibold text-xs ${
+                      darkMode ? "text-white" : ""
+                    }`}
+                  >
+                    Today
+                  </Typography>
+                </Box>
               </Box>
-              <Stack className="gap-2 flex-start">
-                <Typography className="font-semibold">
-                  Transaction Succeeded
-                </Typography>
-                <Button
-                  className="text-xs px-0 w-36 capitalize border-zinc-700 text-sky-500"
-                  variant="outlined"
-                  onClick={() => null}
-                >
-                  View on Explorer
-                </Button>
-              </Stack>
             </Box>
-          </Alert>
-        </Snackbar>
-      </Card>
+            <ChartView />
+          </CardContent>
+        </Card>
+      )}
     </Stack>
   );
 }

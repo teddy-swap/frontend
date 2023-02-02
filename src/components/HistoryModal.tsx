@@ -78,7 +78,7 @@ const HistoryModal = (props: Props) => {
       <Stack className="items-center space-y-8 p-0">
         <Table className="dark:bg-zinc-900 dark:text-white border-separate border-spacing-y-1">
           <TableHead className="">
-            <TableRow className="bg-cyan-900/10 overflow-hidden rounded-xl">
+            <TableRow className="bg-cyan-900/20 overflow-hidden rounded-xl">
               <TableCell className={tableHeadCell}>Transaction</TableCell>
               <TableCell className={tableHeadCell + ` text-center`}>
                 Transaction ID
@@ -94,16 +94,20 @@ const HistoryModal = (props: Props) => {
                 <>
                   <TableRow>
                     <TableCell
-                      className={`tableCell dark:border-zinc-800`}
+                      className={`tableCell border-none dark:border-zinc-800`}
                       component="th"
                       scope="row"
                     >
                       {transaction.type}
                     </TableCell>
-                    <TableCell className={`tableCell dark:border-zinc-800`}>
+                    <TableCell
+                      className={`tableCell border-none dark:border-zinc-800`}
+                    >
                       {transaction.id}
                     </TableCell>
-                    <TableCell className={`tableCell dark:border-zinc-800`}>
+                    <TableCell
+                      className={`tableCell border-none dark:border-zinc-800`}
+                    >
                       <Typography>
                         {dayjs(transaction.date).format("YYYY-MM-DD HH:MM")}
                       </Typography>

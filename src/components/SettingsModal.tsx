@@ -75,7 +75,7 @@ const SettingsModal = (props: Props) => {
           <Box
             className={`${
               darkMode ? "text-white" : ""
-            } rounded-xl flex-1 py-2 text-lg disabled:opacity-40 ${
+            } rounded-xl flex justify-between p-3 text-lg disabled:opacity-40 ${
               darkMode ? "bg-zinc-800 border-zinc-700" : ""
             }`}
           >
