@@ -43,19 +43,27 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 interface IModal {
   open: boolean;
   headerTitle: string;
+  autoWidth?: boolean;
   onClose?: () => void;
   onBack?: () => void;
   children?: ReactNode;
 }
 
-const Modal = ({ open, onClose, onBack, children, headerTitle }: IModal) => {
+const Modal = ({
+  open,
+  onClose,
+  onBack,
+  children,
+  headerTitle,
+  autoWidth,
+}: IModal) => {
   const { darkMode } = useDarkMode();
   return (
     <MuiModal open={open} onClose={onClose || onBack}>
       <Box
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[470px] border p-5 rounded-xl ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border p-5 rounded-xl ${
           darkMode ? "bg-zinc-900 border-zinc-800" : ""
-        }`}
+        } ${!autoWidth ? "w-[470px]" : ""}`}
       >
         <Box
           className={`${

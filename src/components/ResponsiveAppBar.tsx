@@ -30,11 +30,12 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import GithubIcon from "../assets/GithubIcon";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { Alert, AlertTitle, Link, Stack } from "@mui/material";
+import { Alert, AlertTitle, Badge, Link, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal, { useModal } from "./Modal";
 import { NavLink, useNavigate } from "react-router-dom";
 import WalletMenu from "./WalletMenu";
+import HistoryModal from "./HistoryModal";
 
 const pages = ["swap", "liquidity", "farm", "orders"];
 
@@ -132,6 +133,9 @@ function ResponsiveAppBar() {
     {
       name: "Nami",
       key: "nami",
+      value: 2.282439,
+      equivValue: 203.394046,
+      equivCurrency: "ADA",
       onClick: () => {
         setConnectedWallet("nami");
         handleWalletModalClose();
@@ -140,6 +144,9 @@ function ResponsiveAppBar() {
     {
       name: "Eternl",
       key: "eternl",
+      value: 2.282439,
+      equivValue: 203.394046,
+      equivCurrency: "ADA",
       onClick: () => {
         setConnectedWallet("eternl");
         handleWalletModalClose();
@@ -148,6 +155,9 @@ function ResponsiveAppBar() {
     {
       name: "GeroWallet Preview",
       key: "gerowallet",
+      value: 2.282439,
+      equivValue: 203.394046,
+      equivCurrency: "ADA",
       onClick: () => {
         setConnectedWallet("gerowallet");
         handleWalletModalClose();
@@ -155,9 +165,36 @@ function ResponsiveAppBar() {
     },
   ];
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const walletAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+
+  const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
+  // const [rowData, setRowData] = useState(row);
+  // const [pendingT1, setPendingT1] = useState(row.pendingT1);
+  // const [harvestedT1, setHarvestedT1] = useState(rowData.harvestedT1);
+  // const [pendingT2, setPendingT2] = useState(row.pendingT2);
+  // const [harvestedT2, setHarvestedT2] = useState(rowData.harvestedT2);
+  // const navigate = useNavigate();
+  const [
+    confirmRemoveLiquidityOpen,
+    handleConfirmRemoveLiquidityOpen,
+    handleConfirmRemoveLiquidityClose,
+  ] = useModal();
+  const [stakeWaitingOpen, handleStakeWaitingOpen, handleStakeWaitingClose] =
+    useModal();
+  const [
+    withdrawWaitingOpen,
+    handleWithdrawWaitingOpen,
+    handleWithdrawWaitingClose,
+  ] = useModal();
+  const [
+    harvestWaitingOpen,
+    handleHarvestWaitingOpen,
+    handleHarvestWaitingClose,
+  ] = useModal();
+  const [history, handleHistoryOpen, handleHistoryClose] = useModal();
 
   return (
     <AppBar className="fixed px-10 py-0 text-black bg-white shadow-sm dark:bg-slate-900/70 dark:text-white">
@@ -312,7 +349,7 @@ function ResponsiveAppBar() {
                 </Button>
               </Tooltip>
               <WalletMenu
-                wallets={["nami"]}
+                wallets={wallets}
                 handleSelect={(wallet) => null}
                 anchorEl={anchorElWalletMenu}
                 onClose={handleCloseWalletMenu}
@@ -321,13 +358,19 @@ function ResponsiveAppBar() {
             </Box>
           )}
           <Tooltip title="Transaction History">
-            <Button
-              onClick={() => navigate("/history")}
-              variant="outlined"
-              className="text-black dark:text-white px-0 border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-white/10 rounded-md min-w-[2.5rem] min-h-[2.5rem]"
-              classes={{ startIcon: "m-0" }}
-              startIcon={<UpdateIcon className="w-5 h-5" />}
-            />
+            <Badge
+              badgeContent={4}
+              color="primary"
+              classes={{ colorPrimary: "bg-yellow-600" }}
+            >
+              <Button
+                onClick={handleHistoryOpen}
+                variant="outlined"
+                className="text-black dark:text-white px-0 border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-white/10 rounded-md min-w-[2.5rem] min-h-[2.5rem]"
+                classes={{ startIcon: "m-0" }}
+                startIcon={<UpdateIcon className="w-5 h-5" />}
+              />
+            </Badge>
           </Tooltip>
           <Tooltip title="Settings">
             <Button
@@ -405,6 +448,7 @@ function ResponsiveAppBar() {
           </Menu>
         </Box>
       </Toolbar>
+      <HistoryModal onClose={handleHistoryClose} open={history} />
     </AppBar>
   );
 }
