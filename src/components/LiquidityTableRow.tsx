@@ -19,6 +19,8 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
+import TokenGroup from "./TokenGroup";
+import APR from "./APR";
 
 interface ILiquidityTableRow {
   row: any;
@@ -48,28 +50,28 @@ export default function LiquidityTableRow({ row, action }: ILiquidityTableRow) {
         className="cursor-pointer"
       >
         <TableCell className={tableCell} component="th" scope="row">
-          <Box className="flex items-center gap-4">
-            <AvatarGroup>
-              <Avatar
-                className={tokenAvatar}
-                alt={row.token1}
-                src={`images/${row.token1.toLowerCase()}.png`}
-              />
-              <Avatar
-                className={tokenAvatar}
-                alt={row.token2}
-                src={`images/${row.token2.toLowerCase()}.png`}
-              />
-            </AvatarGroup>
-            <Typography className="font-semibold">
-              {row.token1}/{row.token2}
-            </Typography>
-            <Typography>{row.percentage}%</Typography>
-          </Box>
+          <TokenGroup
+            token1={row.token1}
+            token2={row.token2}
+            token1ID={row.token1ID}
+            token2ID={row.token2ID}
+          />
         </TableCell>
         <TableCell className={tableCell}>{row.tvl}M ₳</TableCell>
         <TableCell className={tableCell}>{row.volume}M ₳</TableCell>
-        <TableCell className={tableCell}>{row.apr}%</TableCell>
+        <TableCell className={tableCell}>
+          {row.volume7D.toLocaleString()} TEDY
+        </TableCell>
+        <TableCell className={tableCell}>{row.fee}%</TableCell>
+        <TableCell className={tableCell}>
+          <APR
+            apr={row.apr}
+            token1={row.token1}
+            token2={row.token2}
+            token1ID={row.token1ID}
+            token2ID={row.token2ID}
+          />
+        </TableCell>
         <TableCell className={tableCell}>
           <Box className="flex justify-end">
             <Button
@@ -78,7 +80,7 @@ export default function LiquidityTableRow({ row, action }: ILiquidityTableRow) {
               classes={{ startIcon: "m-0" }}
               startIcon={
                 <KeyboardArrowDownIcon
-                  className={`w-5 h-5 text-white transition ${
+                  className={`w-5 h-5 text-sky-600 transition ${
                     show ? "rotate-180" : "rotate-0"
                   }`}
                 />
@@ -93,7 +95,7 @@ export default function LiquidityTableRow({ row, action }: ILiquidityTableRow) {
       >
         {show && (
           <TableCell
-            colSpan={5}
+            colSpan={7}
             className={`${tableCell} dark:bg-sky-900/10 dark:text-white text-sm py-6`}
           >
             <Grid container spacing={4} className="">

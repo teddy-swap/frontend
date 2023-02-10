@@ -22,24 +22,7 @@ import Button from "@mui/material/Button";
 import LiquidityTableRow from "./LiquidityTableRow";
 import FarmTableRow from "./FarmTableRow";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-
-function createData() {
-  return {
-    token1: "WMTT",
-    token2: "MELDt",
-    totalStaked: 3873800430,
-    emissionsPercentage: 68.2,
-    dailyEmission: 8230456,
-    yourStake: 12367,
-    apr: 122.63,
-    farm: "Teddy Farm",
-    farmIcon: "🧸",
-    pendingT1: 1356,
-    pendingT2: 8.36,
-    harvestedT1: 12456,
-    harvestedT2: 28.63,
-  };
-}
+import { FarmIconType } from "../types";
 
 const data = [
   {
@@ -53,7 +36,7 @@ const data = [
     yourStake: 12367,
     apr: 122.63,
     farm: "Teddy Farm",
-    farmIcon: "🧸",
+    farmIcon: FarmIconType.TEDDY,
     pendingT1: 1356,
     pendingT2: 8.36,
     harvestedT1: 12456,
@@ -73,7 +56,7 @@ const data = [
     yourStake: 12367,
     apr: 122.63,
     farm: "Grizzly Farm",
-    farmIcon: "🐻",
+    farmIcon: FarmIconType.GRIZZLY,
     pendingT1: 0,
     pendingT2: 0,
     harvestedT1: 12456,
@@ -93,7 +76,7 @@ const data = [
     yourStake: 12367,
     apr: 122.63,
     farm: "Polar Farm",
-    farmIcon: "🐻‍❄️",
+    farmIcon: FarmIconType.POLAR,
     pendingT1: 1356,
     pendingT2: 8.36,
     harvestedT1: 12456,

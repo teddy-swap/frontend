@@ -31,6 +31,8 @@ import WaitingModal from "./WaitingModal";
 import WithdrawModal from "./WithdrawModal";
 import TokenAvatar from "./TokenAvatar";
 import TokenAvatarGroup from "./TokenAvatarGroup";
+import TokenGroup from "./TokenGroup";
+import APR from "./APR";
 
 interface Props {
   row: any;
@@ -118,18 +120,12 @@ export default function FarmTableRow({ row }: Props) {
         className="cursor-pointer"
       >
         <TableCell className={tableCell} component="th" scope="row">
-          <Box className="flex items-center gap-4">
-            <TokenAvatarGroup
-              token1={row.token1}
-              token2={row.token2}
-              token1ID={row.token1ID}
-              token2ID={row.token2ID}
-            />
-            <Typography className="font-semibold">
-              {row.token1}/{row.token2}
-            </Typography>
-            <HiBadgeCheck className="w-5 h-5" />
-          </Box>
+          <TokenGroup
+            token1={row.token1}
+            token2={row.token2}
+            token1ID={row.token1ID}
+            token2ID={row.token2ID}
+          />
         </TableCell>
         <TableCell className={tableCell}>
           {row.totalStaked.toLocaleString()} LP
@@ -144,59 +140,19 @@ export default function FarmTableRow({ row }: Props) {
           {row.yourStake.toLocaleString()} LP
         </TableCell>
         <TableCell className={tableCell}>
-          <Box className="flex flex-col items-end">
-            <Box className="flex gap-1 items-center round">
-              <Tooltip
-                title={`${row.farm}: ${row.apr}%`}
-                placement="top"
-                arrow={true}
-                classes={{
-                  tooltip: "bg-sky-800 top-1 p-3 rounded-xl text-xs",
-                  arrow: "text-sky-800",
-                }}
-              >
-                <span className="text-xl">{row.farmIcon}</span>
-              </Tooltip>
-              <span className="text-xs">{row.farm}</span>
-              <Tooltip
-                title={
-                  <Stack className="gap-1 p-1">
-                    <Typography className="text-xs">
-                      {row.token1} APR: {row.aprT1}%
-                    </Typography>
-                    <Typography className="text-xs">
-                      {row.token2} APR: {row.aprT2}%
-                    </Typography>
-                    <Typography className="text-xs">
-                      Trading Fees APR (30D): {row.aprFees}%
-                    </Typography>
-                  </Stack>
-                }
-                placement="top"
-                arrow={true}
-                classes={{
-                  tooltip: "bg-sky-900 top-1 p-3 rounded-xl text-xs",
-                  arrow: "text-sky-800",
-                }}
-              >
-                <span>
-                  <MdInfo className="" />
-                </span>
-              </Tooltip>
-            </Box>
-            <Box className="flex gap-2 items-center">
-              <Typography className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-500">
-                {row.apr}%
-              </Typography>
-              <TokenAvatarGroup
-                token1={row.token1}
-                token2={row.token2}
-                token1ID={row.token1ID}
-                token2ID={row.token2ID}
-                tokenStyle="h-5 w-5"
-              />
-            </Box>
-          </Box>
+          <APR
+            extended={true}
+            farm={row.farm}
+            farmIcon={row.farmIcon}
+            apr={row.apr}
+            token1={row.token1}
+            token2={row.token2}
+            token1ID={row.token1ID}
+            token2ID={row.token2ID}
+            aprT1={row.aprT1}
+            aprT2={row.aprT2}
+            aprFees={row.aprFees}
+          />
         </TableCell>
         <TableCell className={tableCell}>
           <Box className="flex justify-end">

@@ -29,6 +29,7 @@ import LiquidityTable from "../components/LiquidityTable";
 import TabPanel from "../components/Tabs";
 import { useNavigate } from "react-router-dom";
 import PoolsOverviewTable from "../components/PoolsOverviewTable";
+import SearchField from "../components/SearchField";
 
 export default function Liquidity() {
   const { darkMode } = useDarkMode();
@@ -52,7 +53,7 @@ export default function Liquidity() {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
-            className={`dark:bg-zinc-900 rounded-lg`}
+            className={`dark:bg-zinc-900/50 rounded-lg`}
             classes={{ indicator: "dark:bg-sky-700 h-full rounded-lg" }}
           >
             <Tab label="Pools Overview" className={`${tabStyle}`} />
@@ -66,28 +67,9 @@ export default function Liquidity() {
             Add Liquidity
           </Button>
         </Box>
-        <Box
-          className={`flex rounded-lg items-center dark:bg-zinc-900 max-w-2xl`}
-        >
-          <SearchIcon className={` ml-3 pr-1 w-6 h-6 dark:text-zinc-500`} />
-          <TextField
-            variant="outlined"
-            id="outlined-adornment-weight"
-            aria-describedby="outlined-weight-helper-text"
-            // value={props.value?.toLocaleString()}
-            // defaultValue={props.defaultValue?.toLocaleString()}
-            placeholder={"Type token name or pool id"}
-            className="w-full px-1"
-            InputProps={{
-              classes: {
-                notchedOutline: "border-none",
-                input: `text-base font-medium py-2 px-1 w-full dark:text-white dark:placeholder:text-zinc-300`,
-              },
-            }}
-          />
-        </Box>
+        <SearchField placeholder="Type token name or pool id" />
         <TabPanel value={value} index={0}>
-          <PoolsOverviewTable />
+          <LiquidityTable overview />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <LiquidityTable />
